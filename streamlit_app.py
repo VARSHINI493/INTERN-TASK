@@ -1,5 +1,5 @@
 import streamlit as st
-import psycopg2
+import psycopg2 # type: ignore
 import hashlib
 import re
 from collections import Counter
