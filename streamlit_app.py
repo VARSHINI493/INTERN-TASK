@@ -67,4 +67,4 @@ else:
             if repeated_sentences:
                 st.json(repeated_sentences)  # ✅ Correct JSON format
             else:
-                st.write("✅ No repeated sentences found.")  # ✅ Fixed
+                st.write("✅ No repeated sentences found.")  # ✅ Fixed
