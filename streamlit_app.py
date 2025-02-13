@@ -4,9 +4,13 @@ from collections import Counter
 
 st.set_page_config(page_title="Login Page", page_icon="🔐")
 
-# Initialize session state for authentication
+# Initialize session state for authentication and other variables
 if "authenticated" not in st.session_state:
     st.session_state.authenticated = False
+if "submitted" not in st.session_state:  # Initialize submitted in session state
+    st.session_state.submitted = False
+if "text_input" not in st.session_state:  # Initialize text_input in session state
+    st.session_state.text_input = ""
 
 st.title("🔐 Login Page")
 
@@ -53,7 +57,7 @@ else:
     st.title("📊 Text Analysis Tool")
 
     # Input section
-    text_input = st.text_area("Enter your text here:")
+    text_input = st.text_area("Enter your text here:", value=st.session_state.text_input)
 
     col1, col2 = st.columns([1, 1])
 
