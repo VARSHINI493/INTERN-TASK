@@ -30,7 +30,7 @@ if not st.session_state.authenticated:
             st.error("❌ Invalid Username or Password")
 else:
     st.success("✅ Login Successful!")
-    st.balloons()
+    st.snow()
 
     # TEXT ANALYSIS TOOL
     def analyze_text(text):
