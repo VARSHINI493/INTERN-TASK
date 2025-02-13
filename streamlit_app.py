@@ -1,5 +1,5 @@
 import streamlit as st
-import sqlite3
+import psycopg2
 import hashlib
 import re
 from collections import Counter
@@ -7,11 +7,14 @@ from collections import Counter
 # Configure Streamlit page
 st.set_page_config(page_title="Login & Registration", page_icon="🔐")
 
-# Database setup
-conn = sqlite3.connect("users.db")
-c = conn.cursor()
-c.execute("CREATE TABLE IF NOT EXISTS users (username TEXT UNIQUE, password TEXT)")
-conn.commit()
+# Database connection (replace with your PostgreSQL credentials)
+def get_db_connection():
+    return psycopg2.connect(
+        host="your_host",
+        database="your_database",
+        user="your_user",
+        password="your_password"
+    )
 
 # Function to hash passwords
 def hash_password(password):
@@ -20,18 +23,38 @@ def hash_password(password):
 # Function to register a user
 def register_user(username, password):
     hashed_password = hash_password(password)
+    conn = get_db_connection()
+    c = conn.cursor()
     try:
-        c.execute("INSERT INTO users (username, password) VALUES (?, ?)", (username, hashed_password))
+        # Create table if it doesn't exist
+        c.execute("""
+            CREATE TABLE IF NOT EXISTS users (
+                username TEXT UNIQUE,
+                password TEXT
+            )
+        """)
+        conn.commit()
+
+        # Insert new user into the database
+        c.execute("INSERT INTO users (username, password) VALUES (%s, %s)", (username, hashed_password))
         conn.commit()
         return True
-    except sqlite3.IntegrityError:
+    except psycopg2.IntegrityError:
         return False  # Username already exists
+    finally:
+        c.close()
+        conn.close()
 
 # Function to check login
 def check_login(username, password):
     hashed_password = hash_password(password)
-    c.execute("SELECT * FROM users WHERE username=? AND password=?", (username, hashed_password))
-    return c.fetchone() is not None
+    conn = get_db_connection()
+    c = conn.cursor()
+    c.execute("SELECT * FROM users WHERE username=%s AND password=%s", (username, hashed_password))
+    result = c.fetchone()
+    c.close()
+    conn.close()
+    return result is not None
 
 # Initialize session state
 if "authenticated" not in st.session_state:
