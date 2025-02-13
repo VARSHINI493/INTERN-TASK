@@ -44,15 +44,12 @@ else:
         word_freq = Counter(words)
         repeated_words = {word: count for word, count in word_freq.items() if count > 1}
 
-        sentence_freq = Counter(sentences)
-        repeated_sentences = {s: count for s, count in sentence_freq.items() if count > 1}
-
         # Count single, double, and triple repeated words
-        single_word_repeated = {word: count for word, count in word_freq.items() if count == 2}
-        double_word_repeated = {word: count for word, count in word_freq.items() if count == 3}
-        triple_word_repeated = {word: count for word, count in word_freq.items() if count == 4}
+        single_word_repeated = sum(1 for count in word_freq.values() if count == 2)
+        double_word_repeated = sum(1 for count in word_freq.values() if count == 3)
+        triple_word_repeated = sum(1 for count in word_freq.values() if count == 4)
 
-        return char_count, word_count, sentence_count, repeated_words, repeated_sentences, single_word_repeated, double_word_repeated, triple_word_repeated
+        return char_count, word_count, sentence_count, single_word_repeated, double_word_repeated, triple_word_repeated
 
     st.title("📊 Text Analysis Tool")
 
@@ -78,27 +75,13 @@ else:
     # Check if input text is provided and show analysis
     if st.session_state.submitted:
         if text_input.strip():
-            char_count, word_count, sentence_count, repeated_words, repeated_sentences, single_word_repeated, double_word_repeated, triple_word_repeated = analyze_text(text_input)
+            char_count, word_count, sentence_count, single_word_repeated, double_word_repeated, triple_word_repeated = analyze_text(text_input)
 
             # Display Analysis Results
             st.subheader("📌 Analysis Results")
-            st.write(f"*Total Characters:* {char_count}")
-            st.write(f"*Total Words:* {word_count}")
-            st.write(f"*Total Sentences:* {sentence_count}")
-
-            st.subheader("🔄 Repeated Words")
-            if repeated_words:
-                st.json(repeated_words)  # ✅ Correct JSON format
-            else:
-                st.write("✅ No repeated words found.")  # ✅ Fixed
-
-            st.subheader("🔁 Repeated Sentences")
-            if repeated_sentences:
-                st.json(repeated_sentences)  # ✅ Correct JSON format
-            else:
-                st.write("✅ No repeated sentences found.")  # ✅ Fixed
-
-            st.subheader("🔢 Word Repetition Counts")
-            st.write(f"**Single Word Repeated Twice**: {single_word_repeated}")
-            st.write(f"**Double Word Repeated Twice**: {double_word_repeated}")
-            st.write(f"**Triple Word Repeated Twice**: {triple_word_repeated}")
+            st.write(f"📜 **Total Characters:** {char_count}")
+            st.write(f"📖 **Total Words:** {word_count}")
+            st.write(f"📝 **Total Sentences:** {sentence_count}")
+            st.write(f"🔄 **Single Word Repeated Count:** {single_word_repeated}")
+            st.write(f"🔁 **Double Word Repeated Count:** {double_word_repeated}")
+            st.write(f"🔂 **Triple Word Repeated Count:** {triple_word_repeated}")
