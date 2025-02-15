@@ -1,57 +1,25 @@
-# Streamlit User Authentication and Text Analysis App
+# 📦 Streamlit App Starter Kit 
 
-This app allows users to register, log in, and perform text analysis using Streamlit.
+⬆ (Replace above with your app's name)
 
-## Requirements
 
-- Python 3.11
-- Docker (optional but recommended)
-- Streamlit
-- psycopg2 (for PostgreSQL connection)
-- hashlib (for password hashing)
+Description of the app ...
 
-## How to Run
+## Demo App
 
-### Option 1: Running Locally
+[![Streamlit App](https://static.streamlit.io/badges/streamlit_badge_black_white.svg)](https://app-starter-kit.streamlit.app/)
 
-1. Clone the repository:
-    ```bash
-    git clone <repository_url>
-    cd <repository_name>
-    ```
+## GitHub Codespaces
 
-2. Create and activate a virtual environment (optional but recommended):
-    ```bash
-    python3 -m venv venv
-    source venv/bin/activate  # On Windows, use `venv\Scripts\activate`
-    ```
+[![Open in GitHub Codespaces](https://github.com/codespaces/badge.svg)](https://codespaces.new/streamlit/app-starter-kit?quickstart=1)
 
-3. Install dependencies:
-    ```bash
-    pip install -r requirements.txt
-    ```
+## Section Heading
 
-4. Run the app:
-    ```bash
-    streamlit run streamlit_app.py
-    ```
+This is filler text, please replace this with text for this section.
 
-### Option 2: Running with Docker
+## Further Reading
 
-1. Clone the repository:
-    ```bash
-    git clone <repository_url>
-    cd <repository_name>
-    ```
-
-2. Build and run the Docker container:
-    ```bash
-    docker-compose up
-    ```
-
-3. The app will be available at `http://localhost:8501`.
-
-## Database Configuration
-
-Ensure your PostgreSQL credentials are set correctly, either in the code or through environment variables.
-
+This is filler text, please replace this with a explanatory text about further relevant resources for this repo
+- Resource 1
+- Resource 2
+- Resource 3
