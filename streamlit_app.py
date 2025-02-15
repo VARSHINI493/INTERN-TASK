@@ -85,3 +85,4 @@ else:
             st.write(f"🔄 *Single Word Repeated Count:* {single_word_repeated}")
             st.write(f"🔁 *Double Word Repeated Count:* {double_word_repeated}")
             st.write(f"🔂 *Triple Word Repeated Count:* {triple_word_repeated}")
+
