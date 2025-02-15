@@ -4,13 +4,9 @@ from collections import Counter
 
 st.set_page_config(page_title="Login Page", page_icon="🔐")
 
-# Initialize session state for authentication and other variables
+# Initialize session state for authentication
 if "authenticated" not in st.session_state:
     st.session_state.authenticated = False
-if "submitted" not in st.session_state:  # Initialize submitted in session state
-    st.session_state.submitted = False
-if "text_input" not in st.session_state:  # Initialize text_input in session state
-    st.session_state.text_input = ""
 
 st.title("🔐 Login Page")
 
@@ -30,7 +26,7 @@ if not st.session_state.authenticated:
             st.error("❌ Invalid Username or Password")
 else:
     st.success("✅ Login Successful!")
-    st.snow()
+    st.balloons()
 
     # TEXT ANALYSIS TOOL
     def analyze_text(text):
@@ -44,44 +40,31 @@ else:
         word_freq = Counter(words)
         repeated_words = {word: count for word, count in word_freq.items() if count > 1}
 
-        # Count single, double, and triple repeated words
-        single_word_repeated = sum(1 for count in word_freq.values() if count == 2)
-        double_word_repeated = sum(1 for count in word_freq.values() if count == 3)
-        triple_word_repeated = sum(1 for count in word_freq.values() if count == 4)
+        sentence_freq = Counter(sentences)
+        repeated_sentences = {s: count for s, count in sentence_freq.items() if count > 1}
 
-        return char_count, word_count, sentence_count, single_word_repeated, double_word_repeated, triple_word_repeated
+        return char_count, word_count, sentence_count, repeated_words, repeated_sentences
 
     st.title("📊 Text Analysis Tool")
 
-    # Input section
-    text_input = st.text_area("Enter your text here:", value=st.session_state.text_input)
+    text_input = st.text_area("Enter your text here:")
 
-    col1, col2 = st.columns([1, 1])
-
-    # Clear button
-    with col1:
-        if st.button("Clear"):
-            st.session_state.text_input = ""
-            st.session_state.submitted = False
-            st.rerun()
-
-    # Submit button
-    with col2:
-        if st.button("Submit"):
-            st.session_state.text_input = text_input
-            st.session_state.submitted = True
-            st.rerun()
-
-    # Check if input text is provided and show analysis
-    if st.session_state.submitted:
+    if st.button("🔍 Analyze"):
         if text_input.strip():
-            char_count, word_count, sentence_count, single_word_repeated, double_word_repeated, triple_word_repeated = analyze_text(text_input)
-
-            # Display Analysis Results
+            char_count, word_count, sentence_count, repeated_words, repeated_sentences = analyze_text(text_input)
             st.subheader("📌 Analysis Results")
-            st.write(f"📜 *Total Characters:* {char_count}")
-            st.write(f"📖 *Total Words:* {word_count}")
-            st.write(f"📝 *Total Sentences:* {sentence_count}")
-            st.write(f"🔄 *Single Word Repeated Count:* {single_word_repeated}")
-            st.write(f"🔁 *Double Word Repeated Count:* {double_word_repeated}")
-            st.write(f"🔂 *Triple Word Repeated Count:* {triple_word_repeated}")
+            st.write(f"*Total Characters:* {char_count}")
+            st.write(f"*Total Words:* {word_count}")
+            st.write(f"*Total Sentences:* {sentence_count}")
+
+            st.subheader("🔄 Repeated Words")
+            if repeated_words:
+                st.json(repeated_words)  # ✅ Correct JSON format
+            else:
+                st.write("✅ No repeated words found.")  # ✅ Fixed
+
+            st.subheader("🔁 Repeated Sentences")
+            if repeated_sentences:
+                st.json(repeated_sentences)  # ✅ Correct JSON format
+            else:
+                st.write("✅ No repeated sentences found.")  # ✅ Fixed
